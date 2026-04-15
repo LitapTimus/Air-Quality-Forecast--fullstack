@@ -1,0 +1,5 @@
+.env
+__pycache__/
+venv/
+dataset_with_future_weather.csv
+station_metadata_enriched.csv

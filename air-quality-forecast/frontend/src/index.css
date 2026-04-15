@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-gray-100 font-sans;
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 25%);
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-surface/60 backdrop-blur-xl border border-gray-800/50 shadow-xl shadow-black/20;
+  }
+  
+  .glass-panel {
+    @apply bg-gray-900/40 backdrop-blur-md border border-gray-700/50;
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 20px currentColor;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(17, 24, 39, 0.5); 
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.3); 
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.5); 
+}
+
+/* Map fix */
+.leaflet-container {
+  border-radius: 0.75rem;
+  z-index: 10;
+}
