@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { motion, AnimatePresence } from 'framer-motion';
+import { calculateOverallAQI } from '../utils/aqiCalculator';
 
-const pollutants = ['pm25', 'pm10', 'no2', 'so2', 'co', 'o3'];
+const pollutants = ['aqi', 'pm25', 'pm10', 'no2', 'so2', 'co', 'o3'];
 const formatPollutant = (p) => p === 'pm25' ? 'PM2.5' : p === 'pm10' ? 'PM10' : p.toUpperCase();
 
 const ForecastChart = ({ forecast }) => {
-    const [selectedPollutant, setSelectedPollutant] = useState('pm25');
+    const [selectedPollutant, setSelectedPollutant] = useState('aqi');
 
     // Convert API forecast object to Recharts data array
     // { "1h": { pm25: 10, pm10: 20 }, "3h": { ... } } => [ { horizon: "1h", pm25: 10, ...} ]
     // We must sort by horizon correctly since dict order isn't guaranteed chronologically
     const horizonOrder = ["1h", "3h", "6h", "12h", "24h", "48h", "72h", "96h", "120h", "144h", "168h"];
     
-    const chartData = horizonOrder.map(h => ({
-        name: `+${h}`,
-        value: forecast[`+${h}`] ? forecast[`+${h}`][selectedPollutant] : 0,
-    }));
+    const chartData = horizonOrder.map(h => {
+        const data = forecast[`+${h}`] || {};
+        let val = 0;
+        if (selectedPollutant === 'aqi') {
+            val = calculateOverallAQI(data).aqi;
+        } else {
+            val = data[selectedPollutant] || 0;
+        }
+        return {
+            name: `+${h}`,
+            value: val,
+        };
+    });
 
     return (
         <div className="flex flex-col h-full">

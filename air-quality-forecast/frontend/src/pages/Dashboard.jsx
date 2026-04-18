@@ -6,6 +6,7 @@ import PollutantCards from '../components/PollutantCards';
 import ForecastChart from '../components/ForecastChart';
 import ForecastTable from '../components/ForecastTable';
 import MapView from '../components/MapView';
+import HealthAdvisory from '../components/HealthAdvisory';
 import { getStations, getForecast } from '../api/forecastAPI';
 
 const Dashboard = () => {
@@ -95,6 +96,11 @@ const Dashboard = () => {
                 </div>
             </motion.header>
 
+            {/* Health Advisory Panel */}
+            {(!forecast || Object.keys(forecast).length === 0) ? null : (
+                <HealthAdvisory forecast={forecast} />
+            )}
+
             {/* Top Grid: Gauge + Cards */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 
@@ -105,7 +111,7 @@ const Dashboard = () => {
                     transition={{ delay: 0.1 }}
                     className="lg:col-span-4 glass-card rounded-3xl overflow-hidden min-h-[300px]"
                 >
-                    <AQIGauge pm25={currentPM25} />
+                    <AQIGauge forecast={forecast} />
                 </motion.div>
 
                 {/* Pollutant Cards Area */}

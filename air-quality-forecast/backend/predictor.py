@@ -42,11 +42,11 @@ class AirQualityPredictor:
         logger.info("Loading latest dataset into memory...")
         # Since CSV is 263MB, we read it
         df = pd.read_csv(self.dataset_path)
-        # Assuming there is a "Timestamp" column
-        df['Timestamp'] = pd.to_datetime(df['Timestamp'])
+        # Assuming there is a "timestamp" column
+        df['timestamp'] = pd.to_datetime(df['timestamp'])
         
         # Get latest row per station
-        idx = df.groupby('station_id')['Timestamp'].idxmax()
+        idx = df.groupby('station_id')['timestamp'].idxmax()
         latest_df = df.loc[idx]
         
         for _, row in latest_df.iterrows():
@@ -130,7 +130,7 @@ class AirQualityPredictor:
     def predict_for_station(self, station_id: str):
         if station_id in self.latest_data:
             row = self.latest_data[station_id]
-            start_time = str(row.get('Timestamp'))
+            start_time = str(row.get('timestamp'))
             station_name = str(row.get('station_name', station_id))
             forecasts = self.predict_for_active_station(station_id)
             return {
@@ -163,7 +163,7 @@ class AirQualityPredictor:
         
         # Use the timestamp from an arbitrary active station as a placeholder
         # In a real system, this might be the current time or a specific forecast start time
-        start_time = str(list(self.latest_data.values())[0].get('Timestamp')) if self.latest_data else "N/A"
+        start_time = str(list(self.latest_data.values())[0].get('timestamp')) if self.latest_data else "N/A"
 
         for horizon in horizons:
             h_key = f"+{horizon}"

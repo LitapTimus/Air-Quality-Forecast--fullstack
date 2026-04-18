@@ -25,8 +25,8 @@ predictor = None
 @app.on_event("startup")
 async def startup_event():
     global models, predictor
-    models = load_models("catboost_models")
-    predictor = AirQualityPredictor(models, "features.json", "dataset_with_future_weather.csv")
+    models = load_models("models")
+    predictor = AirQualityPredictor(models, "features.json", "mumbai_air_quality_selected_features_catboost_shap.csv")
 
 @app.get("/stations", response_model=List[StationData])
 async def get_stations():

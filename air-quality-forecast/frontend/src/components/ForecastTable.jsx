@@ -1,4 +1,5 @@
 import React from 'react';
+import { calculateOverallAQI } from '../utils/aqiCalculator';
 
 const horizonOrder = ["1h", "3h", "6h", "12h", "24h", "48h", "72h", "96h", "120h", "144h", "168h"];
 
@@ -11,6 +12,7 @@ const ForecastTable = ({ forecast }) => {
                 <thead className="text-xs uppercase bg-gray-800/80 text-gray-400 border-b border-gray-700">
                     <tr>
                         <th scope="col" className="px-6 py-4 font-semibold">Horizon</th>
+                        <th scope="col" className="px-6 py-4 font-semibold text-blue-400">NAQI</th>
                         <th scope="col" className="px-6 py-4 font-semibold">PM2.5</th>
                         <th scope="col" className="px-6 py-4 font-semibold">PM10</th>
                         <th scope="col" className="px-6 py-4 font-semibold">NO2</th>
@@ -27,6 +29,7 @@ const ForecastTable = ({ forecast }) => {
                         return (
                             <tr key={horizon} className={`border-b border-gray-800/40 hover:bg-gray-800/30 transition-colors ${idx % 2 === 0 ? 'bg-transparent' : 'bg-gray-900/20'}`}>
                                 <td className="px-6 py-3 font-medium text-blue-400">+{horizon}</td>
+                                <td className="px-6 py-3 font-bold text-blue-400">{calculateOverallAQI(data).aqi}</td>
                                 <td className="px-6 py-3">{Math.round(data.pm25)}</td>
                                 <td className="px-6 py-3">{Math.round(data.pm10)}</td>
                                 <td className="px-6 py-3">{Math.round(data.no2)}</td>
